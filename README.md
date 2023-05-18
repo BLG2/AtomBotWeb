@@ -3,9 +3,10 @@ WebPanel made for AtomBot made with love by BLG.
 
 This wbsite is not fully ready yet and wil keep growing, also if you find any bug feel free to let me know or fix it yourselves.
 
-DiscordBot Code: https://github.com/BLG2/AtomBot
+[DiscordBot Code](https://github.com/BLG2/AtomBot)
 
-Live preview: https://atom-bot.xyz/
+[Live preview](https://atom-bot.xyz/)
+
 ----------
 
 Make a new file in the AtomConfiguration folder called "PrivateConfig.cs", then add below content.
