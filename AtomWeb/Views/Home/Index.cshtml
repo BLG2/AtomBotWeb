@@ -1,0 +1,53 @@
+﻿@model HomePageVM
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center mb-5">
+
+    <div class="slidein">
+        <div class="box">
+            <h2>Time to add me to your server.</h2>
+            <p>Easy-to-use Discord bot! Advanced auto-moderation, leveling, Twitch and Youtube alerts & much more!</p>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=@(PrivateConfig.BotId)&permissions=8&scope=applications.commands%20bot" style="text-decoration:none;" target="_blank">Invite To Guild</a>
+        </div>
+    </div>
+
+    @if (Model != null && Model.BotStats != null)
+    {
+        <div class="slidein">
+            <div class="box statsbox">
+                <h2>Stats</h2>
+                <ul class="list-unstyled">
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-hdd-stack-fill"></i> Guilds @Model.BotStats.ServerCount</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-cloud-fill"></i> Channels @Model.BotStats.ChannelCount</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-people-fill"></i> Members @Model.BotStats.MemberCount</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-lightning-fill"></i> Shards @Model.BotStats.ShardCount</li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-terminal-fill"></i> Commands @Model.BotStats.CommandCount</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-discord"></i> Discord Version @Model.BotStats.DiscordVersion</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-activity"></i> Node Version @Model.BotStats.NodeVersion</li>
+                    <li class="d-inline mx-1 text-white"><i class="bi bi-clock-fill"></i> Uptime @TimeSpan.FromMilliseconds(Model.BotStats.Uptime).ToString(@"dd\:hh\:mm\:ss")</li>
+                </ul>
+            </div>
+        </div>
+       
+    }
+
+    @if (DesignConfig.HomePageImageSlider != null && DesignConfig.HomePageImageSlider.Count > 0)
+    {
+        var slidermodel = new ImageSliderVM
+                {
+                    SliderTitle = "Features",
+                    SliderData = DesignConfig.HomePageImageSlider
+                };
+        <partial name="_ImageSliderPartial" model="@slidermodel" />
+    }
+
+    @if (Model != null && Model.BotCommands.Count > 0)
+    {
+        <partial name="_BotCommandsListPartial" model="@Model.BotCommands" />
+    }
+</div>
+

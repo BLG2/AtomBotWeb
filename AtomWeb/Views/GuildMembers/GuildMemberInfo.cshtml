@@ -1,0 +1,246 @@
+﻿@model GuildMemberVM
+@{
+    ViewData["Title"] = "GuildMember Info Page";
+}
+
+<div class="text-center mb-5">
+    @if (Model != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null && Model.Member != null)
+    {
+        <div class="pageHead">
+
+            <partial name="_GuildInfoPartial" model="Model.GuildInfo" />
+
+            <h1>Member: @Model.Member.name#@Model.Member.discriminator</h1>
+            <br />
+        </div>
+
+
+
+
+        List<string> subnavs = new List<string>() { "UserInfo", "Level", "Invites", "Warnings" };
+        <div class=" align-items-center pageHead" style="margin:0 auto;">
+            <ul class="inlineList mb-3">
+                @foreach (string navItem in subnavs)
+                {
+                    <li class="px-3">
+                        <button class="subnav text-white @(navItem == subnavs.First() ? "subNavOpen":"")" data-category="@navItem">
+                            <span>@navItem</span>
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="subContent subContentShow pageHead" id="UserInfo">
+            @if (Model.Member != null)
+            {
+                <h3>UserInfo:</h3>
+                <div class="form-center">
+                    <form>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label asp-for="Member.name" class="input-group-text"></label>
+                            </div>
+                            <input asp-for="Member.name" class="form-control" readonly />
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label asp-for="Member.discriminator" class="input-group-text"></label>
+                            </div>
+                            <input asp-for="Member.discriminator" class="form-control" readonly />
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label asp-for="Member.id" class="input-group-text"></label>
+                            </div>
+                            <input asp-for="Member.id" class="form-control" readonly />
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label asp-for="Member.permissions" class="input-group-text"></label>
+                            </div>
+                            <input asp-for="Member.permissions" class="form-control" readonly />
+                        </div>
+                    </form>
+                </div>
+                <br />
+            }
+
+
+
+            <h3>Roles:</h3>
+            <div class="form-center">
+                <form asp-action="SaveMemberRoles" method="post">
+                    @Html.HiddenFor(c=>c.GuildInfo.DiscordGuild.id)
+                    @Html.HiddenFor(c=>c.Member.id)
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Member Roles</label>
+                        </div>
+                        @{
+                            var roles = Model.Member.roles.Select(r => r.id).ToList();
+                        }
+                        <select class=" selectpicker" asp-for="@roles">
+                            @foreach (var item in Model.GuildInfo.Roles)
+                            {
+                                <option value="@item.id.ToString()">@item.name</option>
+                            }
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div asp-validation-summary="All"></div>
+                </form>
+
+            </div>
+        </div>
+
+
+
+
+        <div class="subContent pageHead" id="Warnings">
+            @if (Model.MemberWarnings.Where(w => w.WarnCount > 0).Any())
+            {
+                <h3>Warnings:</h3>
+                foreach (MemberWarning warn in Model.MemberWarnings)
+                {
+                    if (warn.WarnCount > 0)
+                    {
+                        <div class="form-center">
+                            <form asp-action="ResetWarnings" asp-route-warnType="@warn.WarnType" asp-route-guildId="@Model.GuildInfo.DiscordGuild.id" asp-route-memberId="@Model.Member.id" method="post">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text">@warn.WarnType</label>
+                                    </div>
+                                    <input value="@warn.WarnCount" class="form-control" readonly />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger animationHoverDarkenColorButton"><i class="bi bi-x-circle-fill"></i> Reset</button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div asp-validation-summary="All"></div>
+                            </form>
+                        </div>
+                    }
+                }
+                <br />
+            }
+            else
+            {
+                <p>No warnings</p>
+            }
+        </div>
+
+
+        <div class="subContent pageHead" id="Level">
+            <h3>Level:</h3>
+            <div class="form-center">
+                <form asp-action="SetMemberLevel" method="post">
+                    @Html.HiddenFor(c=>c.GuildInfo.DiscordGuild.id)
+                    @Html.HiddenFor(c=>c.Member.id)
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberLevel.Level" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberLevel.Level" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberLevel.Xp" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberLevel.Xp" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberLevel.TotalXp" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberLevel.TotalXp" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="btn-group mb-2" role="group">
+                        <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                    </div>
+                    <br />
+                    <div asp-validation-summary="All"></div>
+                </form>
+            </div>
+            <br />
+        </div>
+
+
+
+
+
+        <div class="subContent pageHead" id="Invites">
+            <h3>Invites:</h3>
+            <div class="form-center">
+                <form asp-action="SetMemberInvites" method="post">
+                    @Html.HiddenFor(c=>c.GuildInfo.DiscordGuild.id)
+                    @Html.HiddenFor(c=>c.Member.id)
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberInvites.Joins" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberInvites.Joins" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberInvites.Leaves" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberInvites.Leaves" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberInvites.Fakes" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberInvites.Fakes" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="MemberInvites.Stays" class="input-group-text"></label>
+                        </div>
+                        <input asp-for="MemberInvites.Stays" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="btn-group mb-2" role="group">
+                        <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                    </div>
+                    <br />
+                    <div asp-validation-summary="All"></div>
+                </form>
+            </div>
+            <br />
+        </div>
+
+
+
+
+
+        <div class="btn-group mb-2 pageHead" role="group">
+            <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+            <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildInfo.DiscordGuild.id" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+            <a asp-action="Index" class="btn btn-primary animationHoverDarkenColorButton" asp-route-guildId="@Model.GuildInfo.DiscordGuild.id"><i class="fa fa-bars" aria-hidden="true"></i> Guild Members</a>
+        </div>
+
+    }
+    else
+    {
+        <div class="text-center">
+            <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+        </div>
+    }
+
+
+
+</div>

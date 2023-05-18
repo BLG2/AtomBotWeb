@@ -1,0 +1,30 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/StyleSheet.css",
+    "inputFile": "wwwroot/css/StyleSheet.scss"
+  },
+  {
+    "outputFile": "wwwroot/js/loader.es5.js",
+    "inputFile": "wwwroot/js/loader.js"
+  },
+  {
+    "outputFile": "wwwroot/js/scrollIndicator.es5.js",
+    "inputFile": "wwwroot/js/scrollIndicator.js"
+  },
+  {
+    "outputFile": "wwwroot/js/scrollToTop.es5.js",
+    "inputFile": "wwwroot/js/scrollToTop.js"
+  },
+  {
+    "outputFile": "wwwroot/js/site.es5.js",
+    "inputFile": "wwwroot/js/site.js"
+  },
+  {
+    "outputFile": "wwwroot/css/themes/default.css",
+    "inputFile": "wwwroot/css/themes/default.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/themes/white.css",
+    "inputFile": "wwwroot/css/themes/white.scss"
+  }
+]

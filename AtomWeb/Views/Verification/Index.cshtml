@@ -1,0 +1,105 @@
+﻿@model VerificationVM
+@{
+    ViewData["Title"] = "Verification Page";
+}
+
+@if (Model != null && Model.GuildId != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null)
+{
+    <div class="text-center mb-5">
+        <div class="pageHead">
+            <h2>Verification System</h2>
+           <partial name="_GuildInfoPartial" model="Model.GuildInfo"/>
+        </div>
+
+        <div class="form-center">
+            <form asp-action="SaveForm" method="post">
+                @Html.HiddenFor(c=>c._id)
+                @Html.HiddenFor(c=>c.GuildId)
+                @Html.HiddenFor(c=>c.MessageId)
+                @Html.HiddenFor(c=>c.GuildInfo)
+                <br />
+                <div class="custom-control custom-switch form-check-inline ">
+                    <input class="custom-control-input" asp-for="Enabled">
+                    <label class="custom-control-label" asp-for="Enabled"></label>
+                </div>
+
+                <br />
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Channel</label>
+                        <label class="input-group-text" title="Text Channel"><i class="fa fa-hashtag"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="ChannelId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 0).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Verified Role</label>
+                    </div>
+                    <select class=" selectpicker" asp-for="VerifiedRoleId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Roles)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Un-Verified Role</label>
+                    </div>
+                    <select class=" selectpicker" asp-for="UnVerifiedRoleId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Roles)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+
+
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCount">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="VerifyMessage"></label>
+                    </div>
+                    <textarea asp-for="VerifyMessage" class="form-control"></textarea>
+                </div>
+
+
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCount">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="VerifiedMessage"></label>
+                    </div>
+                    <textarea asp-for="VerifiedMessage" class="form-control"></textarea>
+                </div>
+
+                <a class="btn btn-secondary animationHoverDarkenColorButton" asp-action="SendDiscordMessage" asp-route-guildId="@Model.GuildId"><i class="bi bi-discord"></i> Send New Discord Message</a>
+
+                <br />
+                <br />
+
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildId" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                </div>
+
+                <br />
+                <div asp-validation-summary="All"></div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}

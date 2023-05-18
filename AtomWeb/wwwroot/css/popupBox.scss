@@ -1,0 +1,43 @@
+﻿
+.popup {
+    position: relative;
+    top: 0;
+    transition: 0.5s ease-in-out;
+    z-index: 6;
+
+    &:hover {
+        top: -8px;
+    }
+}
+
+.boxShadowPrimary {
+    box-shadow: 0 0 3px 3px #cce5ff;
+}
+
+.boxShadowSecondary {
+    box-shadow: 0 0 3px 3px #e2e3e5;
+}
+
+.boxShadowSuccess {
+    box-shadow: 0 0 3px 3px #d4edda;
+}
+
+.boxShadowDanger {
+    box-shadow: 0 0 3px 3px #f8d7da;
+}
+
+.boxShadowWarning {
+    box-shadow: 0 0 3px 3px #fff3cd;
+}
+
+.boxShadowInfo {
+    box-shadow: 0 0 3px 3px #d1ecf1;
+}
+
+.boxShadowLight {
+    box-shadow: 0 0 3px 3px #fefefe;
+}
+
+.boxShadowDark {
+    box-shadow: 0 0 3px 3px #d6d8d9;
+}

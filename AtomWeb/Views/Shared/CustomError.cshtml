@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Mvc.Filters
+@model ExceptionContext
+
+
+<div class="">
+    <div class="text-center">
+        <h1 class="text-danger">@ViewData["Title"]</h1>
+        <p class="fs-3"> <span class="text-info" style="color:#17a2b8 !important;">Oops!</span> Somthing went whrong.</p>
+        <p class="lead">
+            @(ViewData["Message"] != null && !string.IsNullOrEmpty(ViewData["Message"].ToString()) ? ViewData["Message"] : "Error, contact webAdmin.")
+        </p>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary animationHoverDarkenColorButton"><i class="bi bi-house"></i> Home</a>
+    </div>
+</div>

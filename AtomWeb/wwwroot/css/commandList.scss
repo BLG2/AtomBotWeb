@@ -1,0 +1,95 @@
+﻿
+/*bot commands*/
+.command-box {
+    background-color: var(--main-background-color);
+    border-radius: 10px;
+    border: solid 1px var(--main-light-int-color);
+    box-shadow: 0 0 1px 1px var(--main-light-int-color);
+    min-width: 400px;
+    margin-bottom: 8px;
+
+    @media (max-width: 500px) {
+        min-width: 300px;
+    }
+
+    .show-more-btn {
+        height: 100%;
+        color: var(--text-color) !important;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        background-color: transparent;
+        color: var(--text-color);
+        border: none;
+        height: 40px;
+        margin: auto;
+
+        .command-button-text {
+            transition: 0.2s ease-in-out;
+            margin: auto;
+            display: block;
+            text-align: center;
+
+            &:hover {
+                color: var(--breadcrumbs-color) !important;
+            }
+
+            .more-icon-up-down {
+                display: block;
+                text-align: end;
+
+                &:before, &:after {
+                    position: absolute;
+                    top: calc(50% - 5px);
+                    right: auto;
+                    width: 3px;
+                    height: 10px;
+                    background: var(--breadcrumbs-color) !important;
+                    content: "";
+                    // transform-origin: 50% 50%;
+                    will-change: transform;
+                    transition: all .6s ease;
+                }
+
+                &:before {
+                    transform: rotate(45deg) translate(2px,-2px);
+                }
+
+                &:after {
+                    transform: rotate(137deg) translate(2px,2px);
+                }
+            }
+        }
+
+        &.open {
+            .command-button-text {
+                color: var(--light-int-color-bright) !important;
+            }
+
+            .more-icon-up-down {
+                &:before {
+                    transform: rotate(45deg) translate(-2px,2px);
+                }
+
+                &:after {
+                    transform: rotate(137deg) translate(-2px,-2px);
+                }
+            }
+        }
+
+        &[data-id="1"] {
+            .more-icon-up-down {
+                margin-right: 5px !important;
+            }
+        }
+
+        &[data-id="2"] {
+            .more-icon-up-down {
+                margin-right: 10px !important;
+            }
+        }
+    }
+}

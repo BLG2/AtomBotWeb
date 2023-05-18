@@ -1,0 +1,21 @@
+﻿/*scrollbar*/
+
+html {
+    ::-webkit-scrollbar {
+        width: 15px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 3px var(--main-light-int-color);
+        border-radius: 5px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--main-light-int-color);
+        border-radius: 5px;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--main-light-int-color);
+    }
+}

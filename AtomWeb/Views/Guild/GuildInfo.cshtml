@@ -1,0 +1,191 @@
+﻿@model GuildInfoModel
+@{
+    ViewData["Title"] = "GuildSettings Page";
+}
+
+<div class="text-center mb-5">
+    @if (Model != null && Model.DiscordGuild != null)
+    {
+        <div class="pageHead">
+            <h1>Guild: @Model.DiscordGuild.name</h1>
+           <partial name="_GuildInfoPartial" model="Model"/>
+        </div>
+
+        <ul class="list-unstyled Cards guildSettingCards">
+
+            <li>
+                <a asp-action="Index" asp-controller="AntiSystem" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Anti Systems</h5>
+                                <small class="mb-0">Set up the antisystems.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-shield-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="AutoRole" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Auto Role</h5>
+                                <small class="mb-0">Set up the autorole system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-plus-square-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Level" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Leveling</h5>
+                                <small class="mb-0">Guild leveling system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-trophy"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="SelfRole" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">SelfRole</h5>
+                                <small class="mb-0">Set up the selfrole system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="ServerStats" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">ServerStats</h5>
+                                <small class="mb-0">Set up the serverstats system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Verification" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Verification</h5>
+                                <small class="mb-0">Set up the verification system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-person-check-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="WelcomeLeave" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Welcome Leave</h5>
+                                <small class="mb-0">Set up the welcome/leave messages.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-person-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Invite" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Invite Tracer</h5>
+                                <small class="mb-0">Set up the invite tracer system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Ticket" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Tickets</h5>
+                                <small class="mb-0">Set up the ticket system.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-ticket-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Giveaway" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Giveaway</h5>
+                                <small class="mb-0">Active giveaway's.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-trophy-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="GuildMembers" asp-route-guildId="@Model.DiscordGuild.id" class="card mb-3 shadow m-lg-3 showLoadingScreen" style="width:20rem; border-radius:25px; margin:1.1em;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-white mb-0">Members</h5>
+                                <small class="mb-0">Guild member list.</small>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+    }
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}
+</div>
+<br />

@@ -1,0 +1,38 @@
+﻿@model NewTickeMessageVM
+
+<form class="form-center newTicketMessageBox" asp-action="SendTicketMessage" method="post" style="background-color:transparent; box-shadow:none;">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.guildId)
+    @Html.HiddenFor(m => m.ticketObjectId)
+    @Html.HiddenFor(m => m.memberId)
+    @Html.HiddenFor(m => m.Disabled)
+
+
+    <div class="input-group newTicketMessage" style="width: 96%;">
+        <div class="input-group-prepend">
+            <label class="input-group-text" asp-for="Message"></label>
+        </div>
+
+        @if (Model.Disabled)
+        {
+            <textarea asp-for="Message" disabled title="You can only send messages when the ticket is open." class="form-control"></textarea>
+        }
+        else
+        {
+            <textarea asp-for="Message" class="form-control"></textarea>
+        }
+
+        <div class="input-group-prepend">
+            <button @(Model.Disabled == true ? "disabled" : "") type="submit" class="msger-send-btn btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+
+</form>
+<br />
+<div>
+    @if (Model.Disabled)
+    {
+        <span><small>You can only send messages when the ticket is open.</small></span>
+    }
+    <div asp-validation-summary="All"></div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model TicketMessageButtonActionVM
+
+
+@if (Model != null && Model.guildId != null && Model.memberId != null && Model.ticketObjectId != null && Model.button != null)
+{
+    List<string> styles = new List<string> { "primary", "primary", "secondary", "success", "danger", "dark" };
+
+    var actionName = "CloseTicket";
+    if (Model.button.custom_id == $"delete_ticket_{Model.guildId}")
+    {
+        actionName = "DeleteTicket";
+    }
+    if (Model.button.custom_id == $"reopen_ticket_{Model.guildId}")
+    {
+        actionName = "ReopenTicket";
+    }
+    if (Model.button.custom_id == $"close_ticket_{Model.guildId}")
+    {
+        actionName = "CloseTicket";
+    }
+
+    <form asp-action="@actionName" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.guildId)
+        @Html.HiddenFor(m => m.ticketObjectId)
+        @Html.HiddenFor(m => m.memberId)
+        <button type="submit" class="btn btn-@(styles[Model.button.style])">@Model.button.emoji.name @Model.button.label</button>
+    </form>
+}
+
+
+
+

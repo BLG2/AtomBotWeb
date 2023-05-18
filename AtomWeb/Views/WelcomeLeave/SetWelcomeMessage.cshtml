@@ -1,0 +1,181 @@
+﻿@model WelcomeLeaveVM
+@{
+    ViewData["Title"] = "Welcome Message Page";
+}
+@if (Model != null && Model.GuildId != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null)
+{
+    <div class="text-center mb-5">
+        <div class="pageHead">
+            <h2>Welcome Message</h2>
+            <partial name="_GuildInfoPartial" model="Model.GuildInfo" />
+        </div>
+
+        <div class="form-center">
+            <form asp-action="SaveForm" method="post">
+                @Html.HiddenFor(c=>c._id)
+                @Html.HiddenFor(c=>c.GuildId)
+                @Html.HiddenFor(c=>c.WelcomeChannelId)
+                @Html.HiddenFor(c=>c.LeaveChannelId)
+                @Html.HiddenFor(c=>c.Enabled)
+                @Html.HiddenFor(c=>c.GuildInfo)
+
+
+
+
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.MessageContent"></label>
+                            </div>
+                            <textarea asp-for="WelcomeEmbed.MessageContent" class="form-control"></textarea>
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedAuthor"></label>
+                            </div>
+                            <textarea asp-for="WelcomeEmbed.EmbedAuthor" class="form-control"></textarea>
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedAuthorImageUrl"></label>
+                            </div>
+                            <input asp-for="WelcomeEmbed.EmbedAuthorImageUrl" class="form-control" />
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedTitle"></label>
+                            </div>
+                            <textarea asp-for="WelcomeEmbed.EmbedTitle" class="form-control"></textarea>
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@guildUrl">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedTitleUrl"></label>
+                            </div>
+                            <input asp-for="WelcomeEmbed.EmbedTitleUrl" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg">
+
+                        <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedDescription"></label>
+                            </div>
+                            <textarea asp-for="WelcomeEmbed.EmbedDescription" class="form-control"></textarea>
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedThumbnailImageUrl"></label>
+                            </div>
+                            <input asp-for="WelcomeEmbed.EmbedThumbnailImageUrl" class="form-control" />
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedFooter"></label>
+                            </div>
+                            <textarea asp-for="WelcomeEmbed.EmbedFooter" class="form-control"></textarea>
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedFooterImageUrl"></label>
+                            </div>
+                            <input asp-for="WelcomeEmbed.EmbedFooterImageUrl" class="form-control" />
+                        </div>
+                        <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" asp-for="WelcomeEmbed.EmbedImageUrl"></label>
+                            </div>
+                            <input asp-for="WelcomeEmbed.EmbedImageUrl" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+@*
+
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.MessageContent"></label>
+                    </div>
+                    <textarea asp-for="WelcomeEmbed.MessageContent" class="form-control"></textarea>
+                </div>
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedAuthor"></label>
+                    </div>
+                    <textarea asp-for="WelcomeEmbed.EmbedAuthor" class="form-control"></textarea>
+                </div>
+                <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedAuthorImageUrl"></label>
+                    </div>
+                    <input asp-for="WelcomeEmbed.EmbedAuthorImageUrl" class="form-control" />
+                </div>
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedTitle"></label>
+                    </div>
+                    <textarea asp-for="WelcomeEmbed.EmbedTitle" class="form-control"></textarea>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedTitleUrl"></label>
+                    </div>
+                    <input asp-for="WelcomeEmbed.EmbedTitleUrl" class="form-control" />
+                </div>
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedDescription"></label>
+                    </div>
+                    <textarea asp-for="WelcomeEmbed.EmbedDescription" class="form-control"></textarea>
+                </div>
+                <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedThumbnailImageUrl"></label>
+                    </div>
+                    <input asp-for="WelcomeEmbed.EmbedThumbnailImageUrl" class="form-control" />
+                </div>
+                <div class="input-group mb-3" title="You can use @@member, @@guildUrl, @@memberTag, @@guildName, @@memberCreated, @@memberJoined, @@memberCount, @@memberCreated, @@memberJoined">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedFooter"></label>
+                    </div>
+                    <textarea asp-for="WelcomeEmbed.EmbedFooter" class="form-control"></textarea>
+                </div>
+                <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedFooterImageUrl"></label>
+                    </div>
+                    <input asp-for="WelcomeEmbed.EmbedFooterImageUrl" class="form-control" />
+                </div>
+                <div class="input-group mb-3" title="You can use @@memberAvatar, @@guildIcon">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" asp-for="WelcomeEmbed.EmbedImageUrl"></label>
+                    </div>
+                    <input asp-for="WelcomeEmbed.EmbedImageUrl" class="form-control" />
+                </div>*@
+
+
+                <br />
+
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="Index" asp-route-guildId="@Model.GuildId" class="btn btn-info animationHoverDarkenColorButton"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</a>
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildId" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                </div>
+
+                <br />
+                <div asp-validation-summary="All"></div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}

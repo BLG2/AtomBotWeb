@@ -1,0 +1,62 @@
+﻿@if (ViewBag != null && ViewBag.Notify != null && ViewBag.Notify.Type != null && !string.IsNullOrEmpty(ViewBag.Notify.NotifyMessage))
+{
+    <div class="animateToTopHover popup" style="position:fixed; top:1%; right:3%;">
+        <div class="animateToTopHover">
+
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Primary)
+            {
+                <div class="alert alert-primary popup boxShadowPrimary" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Secondary)
+            {
+                <div class="alert alert-secondary popup boxShadowSecondary" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Succes)
+            {
+                <div class="alert alert-success popup boxShadowSuccess" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Danger)
+            {
+                <div class="alert alert-danger popup boxShadowDanger" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Warning)
+            {
+                <div class="alert alert-warning popup boxShadowWarning" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Info)
+            {
+                <div class="alert alert-info popup boxShadowInfo" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Light)
+            {
+                <div class="alert alert-light popup boxShadowLight" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+            @if (ViewBag.Notify.Type == NotifyTypeEnum.Dark)
+            {
+                <div class="alert alert-dark popup boxShadowDark" role="alert" style="display:none;">
+                    @ViewBag.Notify.NotifyMessage
+                </div>
+            };
+        </div>
+    </div>
+
+    @if (ViewBag != null && ViewBag.Notify != null && ViewBag.Notify.Type != null && !string.IsNullOrEmpty(ViewBag.Notify.NotifyMessage))
+    {
+        <span style="display:none;" hidden id="customInput" data-value="@ViewBag.Notify.NotifyMessage" />
+    }
+};
+

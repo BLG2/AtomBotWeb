@@ -1,0 +1,209 @@
+﻿@using System.Text.RegularExpressions
+@model TicketInfoVM
+
+@{
+    ViewData["Title"] = "Ticket Info Page";
+}
+
+@if (Model != null && Model.OpenTicket != null)
+{
+    if (Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null && Model.Member != null)
+    {
+        <div class="text-center pageHead">
+            <h2>Ticket Info</h2>
+            <partial name="_GuildInfoPartial" model="Model.GuildInfo" />
+        </div>
+
+
+        <div class="text-center pageHead">
+            <div class="small">
+                <span class="text-muted">TicketInfo:</span>
+                @{
+                    var ticketchanel = Model.GuildInfo.Channels.Where(x => x.id == Model.OpenTicket.ChannelId).FirstOrDefault();
+                    var ticketMember = Model.GuildInfo.Members.Where(x => x.id == Model.OpenTicket.TicketMemberId).FirstOrDefault();
+                }
+                <ul class="list-unstyled">
+                    <li class="d-inline mx-1 text-muted "><i class="bi bi-stars"></i> ID: @Model.OpenTicket.TicketId</li>
+                    <li class="d-inline mx-1 text-muted "><i class="bi bi-person-fill"></i> Member: @(ticketMember != null ? $"{ticketMember.name}#{ticketMember.discriminator}" : "Unknown Member") </li>
+                    <li class="d-inline mx-1 text-muted "><i class="bi bi-hash"></i> Channel: @(ticketchanel?.name ?? "Unknown Channel")</li>
+                    <li class="d-inline mx-1 text-muted "><i class="bi bi-chat-fill"></i> Messages: @Model.OpenTicket.TicketMessages.Count()</li>
+                    <li class="d-inline mx-1 text-muted "><i class="bi bi-clock-fill"></i> Opened: @DateTimeOffset.FromUnixTimeMilliseconds((long)Model.OpenTicket.TicketOpened).UtcDateTime</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="text-center pageHead">
+
+            <div class="ticketMessagesBox">
+                @if (Model.OpenTicket.TicketMessages != null && Model.OpenTicket.TicketMessages.Count > 0)
+                {
+                    <ul class="list-unstyled">
+                        @foreach (var message in Model.OpenTicket.TicketMessages)
+                        {
+                            var deserialized = JsonConvert.DeserializeObject<TicketMessage>(message);
+                            if (deserialized != null)
+                            {
+                                var sender = deserialized.User_Id == Model.Member.id ? "own" : "other";
+                                @if (deserialized.Embeds != null && deserialized.Embeds.Count > 0)
+                                {
+                                    bool ownEmbed = deserialized.Embeds.Count > 0 ? deserialized.Embeds.Where(x => x.author != null && x.author.name != null && x.author.name == $"Send by {Model.Member.name}#{Model.Member.discriminator}" && x.footer != null && x.footer.text != null && x.footer.text == "Send from AtomBotPanel").Any() : false;
+                                    if (ownEmbed) sender = "own";
+                                }
+
+                                <li>
+                                    <div class="bubbleWrapper">
+                                        <span class="@sender">
+                                            <img class="inlineIcon" src="https://cdn.discordapp.com/avatars/@(deserialized.Id)/@(deserialized.Avatar).webp?size=4096">
+                                            <label>@deserialized.Username</label> - @DateTimeOffset.FromUnixTimeMilliseconds((long)deserialized.created).UtcDateTime
+                                        </span>
+                                        <div class="inlineContainer @sender">
+                                            <div class="@(sender+"Bubble") @sender">
+
+                                                @if (!string.IsNullOrEmpty(deserialized.Content))
+                                                {
+                                                    Regex linkregex = new Regex(@"(https\S+)");
+                                                    var hmm = linkregex.Replace(deserialized.Content, "<a href=\"$1\" target=\"_blank\">$1</a>");
+                                                    <div class="messageContent">
+                                                        @Html.Raw(hmm)
+                                                    </div>
+                                                }
+
+                                                @if (deserialized.Attachments != null && deserialized.Attachments.Count > 0)
+                                                {
+                                                    foreach (DiscordMessageAttachmentModel attachment in deserialized.Attachments)
+                                                    {
+                                                        if (attachment.url.EndsWith(".png") || attachment.url.EndsWith(".jpg") || attachment.url.EndsWith(".gif") || attachment.url.EndsWith(".webp"))
+                                                        {
+                                                            <div class="image">
+                                                                <img class="ticketMessageImage" src="@attachment.url" title="@attachment.name" />
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="attachment">
+                                                                <a href="@attachment.url" target="_blank">@attachment.name</a>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+
+                                                @if (deserialized.Embeds != null && deserialized.Embeds.Where(x => x.type == "rich").Count() > 0)
+                                                {
+                                                    foreach (DiscordEmbedModel embed in deserialized.Embeds.Where(x => x.type == "rich").ToList())
+                                                    {
+                                                        <partial name="_EmbedMessagePartial" model="embed" />
+                                                    }
+                                                }
+
+                                                @if (deserialized.Components != null && deserialized.Components.Count > 0)
+                                                {
+                                                    <div class="components">
+
+                                                        @foreach (DiscordMessageComponentModel comp in deserialized.Components)
+                                                        {
+                                                            if (comp.type == 1)
+                                                            {
+                                                                <div class="row">
+                                                                    @foreach (Component item in comp.components)
+                                                                    {
+                                                                        List<string> styles = new List<string> { "primary", "primary", "secondary", "success", "danger", "dark" };
+
+                                                                        @if (item.custom_id == $"delete_ticket_{Model.GuildInfo.DiscordGuild.id}" || item.custom_id == $"reopen_ticket_{Model.GuildInfo.DiscordGuild.id}" || item.custom_id == $"close_ticket_{Model.GuildInfo.DiscordGuild.id}")
+                                                                        {
+                                                                            if (Model.TicketReplyModel.Disabled == false && item.custom_id == $"close_ticket_{Model.GuildInfo.DiscordGuild.id}")
+                                                                            {
+                                                                                <div class="col-auto" style="padding-right:0px !important;">
+                                                                                    @{
+                                                                                        Model.TicketMessageButtonAction.button = item;
+                                                                                        Model.TicketMessageButtonAction.guildId = Model.GuildInfo.DiscordGuild.id;
+                                                                                        Model.TicketMessageButtonAction.memberId = Model.Member.id;
+                                                                                        Model.TicketMessageButtonAction.ticketObjectId = Model.TicketReplyModel.ticketObjectId;
+                                                                                        <partial name="_TiketMessageButtonFormPartial" model="Model.TicketMessageButtonAction" />
+                                                                                    }
+                                                                                </div>
+                                                                            }
+                                                                            else if (Model.TicketReplyModel.Disabled == true && (item.custom_id == $"reopen_ticket_{Model.GuildInfo.DiscordGuild.id}" || item.custom_id == $"delete_ticket_{Model.GuildInfo.DiscordGuild.id}"))
+                                                                            {
+                                                                                <div class="col-auto" style="padding-right:0px !important;">
+                                                                                    @{
+                                                                                        Model.TicketMessageButtonAction.button = item;
+                                                                                        Model.TicketMessageButtonAction.guildId = Model.GuildInfo.DiscordGuild.id;
+                                                                                        Model.TicketMessageButtonAction.memberId = Model.Member.id;
+                                                                                        Model.TicketMessageButtonAction.ticketObjectId = Model.TicketReplyModel.ticketObjectId;
+                                                                                        <partial name="_TiketMessageButtonFormPartial" model="Model.TicketMessageButtonAction" />
+                                                                                    }
+
+                                                                                </div>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="col-auto" style="padding-right:0px !important;">
+                                                                                <div class="btn btn-@(styles[item.style]) noLoadingScreenButton">@item.emoji.name @item.label</div>
+                                                                            </div>
+                                                                        }
+
+                                                                    }
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No ticket messages.</p>
+                }
+
+                <span class="line95w"></span>
+
+                <partial name="_NewTicketMessagePartial" model="Model.TicketReplyModel" />
+
+            </div>
+
+
+            <br />
+
+
+
+            <div>
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="OpenTickets" asp-route-guildId="@Model.GuildInfo.DiscordGuild.id" class="btn btn-info animationHoverDarkenColorButton"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</a>
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildInfo.DiscordGuild.id" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                </div>
+            </div>
+
+        </div>
+
+
+    }
+    else
+    {
+        <div class="text-center">
+            <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+        </div>
+    }
+
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Looks like this ticket doesnt exist anymore in the database.</span>
+    </div>
+}
+
+
+<script defer>
+    $('html').scrollTop($(document).height() * 2);
+</script>

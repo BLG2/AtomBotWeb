@@ -1,0 +1,105 @@
+﻿@model WelcomeLeaveVM
+@{
+    ViewData["Title"] = "Welcome-Leave Page";
+}
+@if (Model != null && Model.GuildId != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null)
+{
+    <div class="text-center mb-5">
+        <div class="pageHead">
+            <h2>Welcome/Leave System</h2>
+            <partial name="_GuildInfoPartial" model="Model.GuildInfo" />
+        </div>
+
+
+        <div class="form-center">
+            <form asp-action="SaveForm" method="post">
+                @Html.HiddenFor(c=>c._id)
+                @Html.HiddenFor(c=>c.GuildId)
+                @Html.HiddenFor(c=>c.GuildInfo)
+
+                @Html.HiddenFor(c=>c.WelcomeEmbed)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.MessageContent)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedAuthor)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedAuthorImageUrl)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedTitle)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedTitleUrl)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedDescription)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedThumbnailImageUrl)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedFooter)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedFooterImageUrl)
+                @Html.HiddenFor(c=>c.WelcomeEmbed.EmbedImageUrl)
+
+                @Html.HiddenFor(c=>c.LeaveEmbed)
+                @Html.HiddenFor(c=>c.LeaveEmbed.MessageContent)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedAuthor)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedAuthorImageUrl)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedTitle)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedTitleUrl)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedDescription)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedThumbnailImageUrl)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedFooter)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedFooterImageUrl)
+                @Html.HiddenFor(c=>c.LeaveEmbed.EmbedImageUrl)
+                <br />
+                <div class="custom-control custom-switch form-check-inline ">
+                    <input class="custom-control-input" asp-for="Enabled">
+                    <label class="custom-control-label" asp-for="Enabled"></label>
+                </div>
+
+                <br />
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Welcome Channel</label>
+                        <label class="input-group-text" title="Text Channel"><i class="fa fa-hashtag"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="WelcomeChannelId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 0).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                    <div class="input-group-prepend">
+                        <a class="btn btn-dark animationHoverDarkenColorButton" asp-action="SetWelcomeMessage" asp-route-guildId="@Model.GuildId">Set Message</a>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Leave Channel</label>
+                        <label class="input-group-text" title="Text Channel"><i class="fa fa-hashtag"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="LeaveChannelId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 0).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                    <div class="input-group-prepend">
+                        <a class="btn btn-dark animationHoverDarkenColorButton" asp-action="SetLeaveMessage" asp-route-guildId="@Model.GuildId">Set Message</a>
+                    </div>
+                </div>
+
+
+                <br />
+
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildId" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                </div>
+
+                <br />
+                <div asp-validation-summary="All"></div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}

@@ -1,0 +1,23 @@
+﻿@using AtomWeb.Models
+<nav aria-label="breadcrumb" id="breadCrumbBox">
+    <ol class="breadcrumb collapsed">
+        <li class="breadcrumb-item showMoreBreadCrumbs" style="display:none !important;"><button><span class="icon-more"></span></button></li>
+        @{
+            var BreadCrumbs = ViewBag.BreadCrumb != null ? (List<BreadCrumb>)ViewBag.BreadCrumb : new List<BreadCrumb>();
+            if (BreadCrumbs.Count > 0)
+            {
+                foreach (BreadCrumb breadcrumb in BreadCrumbs.TakeLast(6))
+                {
+                    if (breadcrumb.Uri == BreadCrumbs.Last().Uri)
+                    {
+                        <li class="breadcrumb-item active" aria-current="page">@breadcrumb.Name</li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item"><a href="@breadcrumb.Uri">@breadcrumb.Name</a></li>
+                    }
+                }
+            }
+        }
+    </ol>
+</nav>

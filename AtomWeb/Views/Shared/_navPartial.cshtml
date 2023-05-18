@@ -1,0 +1,57 @@
+﻿@using AtomWeb.Services
+@{
+    string theme = CookieService.GetTheme(@HttpContextAccessor?.HttpContext) ?? "dark";
+}
+@{
+    var userToken = CookieService.GetSignedInAccesToken(Context);
+    var loggedInAs = await DiscordAuth.GetUserWithAccesTokenAsync(userToken?.access_token ?? "123");
+}
+
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-light showLoadingScreen" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+    @if (loggedInAs != null && loggedInAs.username != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light showLoadingScreen" asp-controller="Guild" asp-action="Index" title="Guild List">Guilds</a>
+        </li>
+    }
+</ul>
+
+<ul class="navbar-nav">
+    @if (loggedInAs != null && loggedInAs.username != null)
+    {
+        <li class="nav-item">
+            <form class="nav-link text-light" asp-controller="DiscordUser" asp-action="DiscordSignOut" method="post">
+                <button type="submit" title="Sign out" class="text-light showLoadingScreen" style="background-color:transparent; border:none;">
+                    Logout
+                    @(loggedInAs.username + "#" + loggedInAs.discriminator)
+                    <img width="20" class="m-1" src="https://cdn.discordapp.com/avatars/@(loggedInAs.id)/@(loggedInAs.avatar).webp?size=4096" />
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light showLoadingScreen" title="Discord authentication" href="@PrivateConfig.DiscordAuthUrl">
+                Login
+            </a>
+        </li>
+    }
+</ul>
+
+
+<ul class="navbar-nav  themeSwapUl">
+    <li>
+        <div>
+            <input type="checkbox" class="checkbox @(theme == "light" ? "lightTheme" : "darkTheme")" id="themeSwap">
+            <label for="themeSwap" class="checkbox-label themeSwap-label">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+                <span class="ball"></span>
+            </label>
+        </div>
+    </li>
+</ul>

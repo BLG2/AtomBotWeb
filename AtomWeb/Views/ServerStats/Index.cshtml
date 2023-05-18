@@ -1,0 +1,199 @@
+﻿@model ServerStatsVM
+@{
+    ViewData["Title"] = "ServerStats Page";
+}
+
+
+@if (Model != null && Model.GuildId != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null)
+{
+    <div class="text-center mb-5">
+        <div class="pageHead">
+            <h2>ServerStats</h2>
+            <partial name="_GuildInfoPartial" model="Model.GuildInfo" />
+        </div>
+
+        <div class="form-center">
+            <form asp-action="SaveForm" method="post">
+                @Html.HiddenFor(c=>c._id)
+                @Html.HiddenFor(c=>c.GuildId)
+                @Html.HiddenFor(c=>c.GuildInfo)
+                <br />
+                <div class="custom-control custom-switch form-check-inline ">
+                    <input class="custom-control-input" asp-for="Enabled">
+                    <label class="custom-control-label" asp-for="Enabled"></label>
+                </div>
+
+                <br />
+                <div class="align-items-center">
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Total Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="TotalMembersChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="MembersChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Bots Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="BotsChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Offline Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="OfflineChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Online Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="OnlineChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Idle Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="IdleChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Dnd Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="DndChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Live Members Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="LiveChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Channels Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="ChannelsChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Roles Count</label>
+                            <label class="input-group-text" title="Voice Channel"><i class="fa fa-volume-up" aria-hidden="true"></i></label>
+                        </div>
+                        <select class=" selectpicker" asp-for="RolesChannelId">
+                            <option value="000">None</option>
+                            @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 2).ToList())
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildId" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                </div>
+
+                <br />
+                <div asp-validation-summary="All"></div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}
+

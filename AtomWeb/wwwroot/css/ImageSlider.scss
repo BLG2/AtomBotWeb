@@ -1,0 +1,114 @@
+﻿
+/*pc resolution*/
+@media (min-width: 768px) {
+    .carouselbox {
+        height: 360px;
+        display: flex;
+
+        .carousel {
+            width: 100%;
+            display: flex;
+
+            .carousel-control-prev {
+                &:hover {
+                    color: var(--light-int-color-bright) !important;
+                }
+
+                &:focus {
+                    color: var(--light-int-color-bright) !important;
+                }
+            }
+
+            .carousel-indicators {
+                z-index: 1;
+
+                li {
+                    background-color: var(--label-color) !important;
+                }
+
+                .active {
+                    background-color: var(--light-int-color-bright) !important;
+                }
+            }
+
+            .carousel-inner {
+                display: flex;
+
+                .carousel-item-next,
+                .carousel-item-prev,
+                .carousel-item {
+
+                    div {
+                        margin: auto !important;
+
+                        img {
+                            margin: 10px 0 10px 0;
+                            border-radius: 25px;
+                            box-shadow: 0 0 3px 3px var(--main-light-int-color);
+                        }
+
+                        h3 {
+                            margin: 10px 0 10px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*mobile resolution*/
+@media (max-width: 768px) {
+    .carouselbox {
+        height: 250px;
+        display: flex;
+
+        .carousel {
+            width: 100%;
+            display: flex;
+
+            .carousel-control-prev {
+                &:hover {
+                    color: var(--light-int-color-bright) !important;
+                }
+
+                &:focus {
+                    color: var(--light-int-color-bright) !important;
+                }
+            }
+
+            .carousel-indicators {
+                z-index: 1;
+
+                .active {
+                    background-color: var(--light-int-color-bright) !important;
+                }
+            }
+
+            .carousel-inner {
+                display: flex;
+
+                .carousel-item-next,
+                .carousel-item-prev,
+                .carousel-item {
+
+                    div {
+                        margin: auto !important;
+
+                        img {
+                            margin: 10px 0 0 0;
+                            height: 120px;
+                            border-radius: 15px;
+                            box-shadow: 0 0 3px 3px var(--main-light-int-color);
+                        }
+
+                        h3 {
+                            margin: 10px 0 10px 0;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+﻿@model SignedInUserModel
+@{
+    ViewData["Title"] = "Guilds Page";
+}
+
+<div class="text-center mb-5">
+    <h1>Guild List</h1>
+
+
+    <div class="mb-2">
+        <input class="form-control" id="myListFilterInput" type="text" placeholder="Search.." style="display:unset; width:80%;">
+    </div>
+
+    <ul class="list-unstyled Cards" id="myList">
+        @if (Model != null && Model.DiscordUser != null && Model.AllDiscordGuilds != null && Model.AllDiscordGuilds.Count > 0)
+        {
+            foreach (DiscordGuild guild in Model.AllDiscordGuilds)
+            {
+                <li>
+                    <div class="card mb-3 shadow m-lg-3" style="max-width:30rem; border-radius:25px;" title="@guild.name">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-white mb-0">@guild.name</h5>
+                                    <div>
+                                        <span class="mb-0">
+                                            <label class="fw-bold">Id:</label> @guild.id
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="mb-0">
+                                            <label class="fw-bold">Owner:</label> @(guild.owner ? "Yes" : "No")
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-auto mt-2">
+                                    <img class="guildIcon" alt="@guild.name" src="https://cdn.discordapp.com/icons/@(guild.id)/@(guild.icon).webp?size=4096" />
+                                </div>
+                                <div class="mt-1">
+                                    @if (Model.MutualDiscordGuilds.Where(g => g.id == guild.id).FirstOrDefault() != null)
+                                    {
+                                        <a class="btn btn-info mt-1 btn-white btn-animate animationHoverDarkenColorButton" style="border-radius:10px; width:50%;" asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@guild.id">Manage Guild</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary mt-1 noLoadingScreenButton btn-white btn-animate animationHoverDarkenColorButton" style="border-radius:10px; width:50%;" href="https://discord.com/api/oauth2/authorize?client_id=@(PrivateConfig.BotId)&permissions=8&scope=applications.commands%20bot" target="_blank">Invite To Guild</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</li>
+        }
+    </ul>
+</div>

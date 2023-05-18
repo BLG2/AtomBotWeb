@@ -1,0 +1,213 @@
+﻿@model AntiSystemVM
+@{
+    ViewData["Title"] = "AntiSystem Page";
+}
+
+@if (Model != null && Model.GuildId != null && Model.GuildInfo != null && Model.GuildInfo.DiscordGuild != null)
+{
+    <div class="text-center pageHead">
+        <h2>Anti Systems</h2>
+           <partial name="_GuildInfoPartial" model="Model.GuildInfo"/>
+    </div>
+
+    <div class="form-center mb-5">
+        <form asp-action="SaveForm" method="post">
+            @Html.HiddenFor(c=>c._id)
+            @Html.HiddenFor(c=>c.GuildId)
+            @Html.HiddenFor(c=>c.GuildInfo)
+            <br />
+
+            
+            <div class="row">
+                <div class="col-lg">
+                    <div class="custom-control custom-switch form-check-inline align-items-baseline">
+                        <input class="custom-control-input" asp-for="AntiLink">
+                        <label class="custom-control-label" asp-for="AntiLink"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiMalLink">
+                        <label class="custom-control-label" asp-for="AntiMalLink"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiSelfbot">
+                        <label class="custom-control-label" asp-for="AntiSelfbot"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiSpam">
+                        <label class="custom-control-label" asp-for="AntiSpam"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiIp">
+                        <label class="custom-control-label" asp-for="AntiIp"></label>
+                    </div>
+                </div>
+
+                <div class="col-lg">
+                    <div class="custom-control custom-switch  form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiDeleteChannels">
+                        <label class="custom-control-label" asp-for="AntiDeleteChannels"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiGhostPing">
+                        <label class="custom-control-label" asp-for="AntiGhostPing"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiBots">
+                        <label class="custom-control-label" asp-for="AntiBots"></label>
+                    </div>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiNonAscii">
+                        <label class="custom-control-label" asp-for="AntiNonAscii"></label>
+                    </div>
+                </div>
+            </div>
+
+            @*<ul class="list-unstyled twooByTwooList">
+                <li class="align-items-baseline text-xxl-start">
+                    <div class="custom-control custom-switch form-check-inline align-items-baseline">
+                        <input class="custom-control-input" asp-for="AntiLink">
+                        <label class="custom-control-label" asp-for="AntiLink"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiMalLink">
+                        <label class="custom-control-label" asp-for="AntiMalLink"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiSelfbot">
+                        <label class="custom-control-label" asp-for="AntiSelfbot"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiSpam">
+                        <label class="custom-control-label" asp-for="AntiSpam"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiIp">
+                        <label class="custom-control-label" asp-for="AntiIp"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch  form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiDeleteChannels">
+                        <label class="custom-control-label" asp-for="AntiDeleteChannels"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiGhostPing">
+                        <label class="custom-control-label" asp-for="AntiGhostPing"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiBots">
+                        <label class="custom-control-label" asp-for="AntiBots"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-switch form-check-inline">
+                        <input class="custom-control-input" asp-for="AntiNonAscii">
+                        <label class="custom-control-label" asp-for="AntiNonAscii"></label>
+                    </div>
+                </li>
+            </ul>*@
+
+            <div class="text-center align-items-center">
+                <div class="mb-3">
+                    <label asp-for="MaxWarnings"></label>
+                    <p id="amount" name="amount" for="rangeInput" class="rangeVal">@Model.MaxWarnings</p>
+                    <input type="range" id="rangeInput" class="custom-range" asp-for="MaxWarnings" title="test" oninput="amount.value=rangeInput.value">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Punishment</label>
+                    </div>
+                    <select class="selectpicker" asp-for="Punishement" asp-items="@new SelectList(Enum.GetNames(typeof(AntiPunishementEnum)))"></select>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Exclude Categorie</label>
+                        <label class="input-group-text" title="Categorie channel"><i class="fa fa-angle-down" aria-hidden="true"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="ExcludeCategoryIds">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 4).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Exclude Channel</label>
+                        <label class="input-group-text" title="Text Channel"><i class="fa fa-hashtag"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="ExcludeChannelIds">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 0).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Exclude Role</label>
+                    </div>
+                    <select class=" selectpicker" asp-for="ExcludeRoleIds">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Roles)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Log Channel</label>
+                        <label class="input-group-text" title="Text Channel"><i class="fa fa-hashtag"></i></label>
+                    </div>
+                    <select class=" selectpicker" asp-for="LogChannelId">
+                        <option value="000">None</option>
+                        @foreach (var item in Model.GuildInfo.Channels.Where(c => c.Type == 0).ToList())
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+
+                <br />
+
+                <div class="btn-group mb-2" role="group">
+                    <a asp-action="Index" asp-controller="Guild" class="btn btn-dark animationHoverDarkenColorButton"><i class="fa fa-bars" aria-hidden="true"></i> Guilds</a>
+                    <a asp-action="GuildInfo" asp-controller="Guild" asp-route-guildId="@Model.GuildId" class="btn btn-secondary animationHoverDarkenColorButton"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                    <button class="btn btn-primary animationHoverDarkenColorButton"><i class="bi bi-cloud-download"></i> Save</button>
+                </div>
+
+
+                <br />
+                <div asp-validation-summary="All"></div>
+            </div>
+
+
+        </form>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}
+
+

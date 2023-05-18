@@ -1,0 +1,63 @@
+﻿@model DiscordEmbedModel
+
+<div class="embedPreview d-flex">
+    <div class="wrapper m-auto">
+        <div class="side-colored"></div>
+        <div class="card embed">
+            <div class="card-block">
+                <div class="embed-inner">
+                    <div class="embed-author">
+                        @if (Model.author != null)
+                        {
+                            if (Model.author.icon_url != null)
+                            {
+                                <img class="embed-author-icon" src="@Model.author.icon_url">
+                            }
+                            if (Model.author.name != null)
+                            {
+                                <span class="embed-author-name">@Model.author.name</span>
+                            }
+                        }
+                    </div>
+                    @if (Model.title != null)
+                    {
+                        <div class="embed-title">
+                            <span id="embedTitle">@Model.title</span>
+                        </div>
+                    }
+                    @if (Model.description != null)
+                    {
+                        <div class="embed-description">@Model.description</div>
+                    }
+                    @if (Model.fields != null && Model.fields.Count > 0)
+                    {
+                        <div class="fields">
+                            @foreach (var item in Model.fields)
+                            {
+                                <div class="field undefined">
+                                    <div class="field-name">@item.name</div>
+                                    <div class="field-value">@item.value</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                @if (Model.thumbnail != null && Model.thumbnail.url != null)
+                {
+                    <img class="embed-thumb" src="@Model.thumbnail.url" style="height: 130px;">
+                }
+            </div>
+            @if (Model.footer != null && Model.footer.text != null)
+            {
+                <div class="embed-footer">
+                    @if (Model.footer.icon_url != null)
+                    {
+                        <img style="height: 15px;" class="embed-author-icon" src="@Model.footer.icon_url">
+                    }
+                    <span>@Model.footer.text</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,36 @@
+﻿@model SignedInUserModel
+
+@{
+    ViewData["Title"] = "UserInfo Page";
+}
+
+@if (Model != null && Model.DiscordUser != null && Model.DiscordUser.username != null)
+{
+    <div class="text-center d-flex align-items-center justify-content-center ">
+	<div class="content">
+		<div class="profilecard">
+			<div class="me">
+				<div class="avatar">
+					<img src="https://cdn.discordapp.com/avatars/@(Model.DiscordUser.id)/@(Model.DiscordUser.avatar).webp?size=4096" />
+				</div>
+				<div class="username">
+					<span><strong>@Model.DiscordUser.username</strong>#@Model.DiscordUser.discriminator</span>
+				</div>
+			</div>
+			<div class="role">
+				<span>Id: <strong>@Model.DiscordUser.id</strong></span>
+				<span>Locale: <strong>@Model.DiscordUser.locale</strong></span>
+				<span>Guilds: <strong>@Model.AllDiscordGuilds.Count()</strong></span>
+				<span>Guilds im in: <strong>@Model.MutualDiscordGuilds.Count()</strong></span>
+			</div>
+		
+		</div>
+	</div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <span class="text-danger">Invalid Model, if this keeps occuring contact webAdmin.</span>
+    </div>
+}

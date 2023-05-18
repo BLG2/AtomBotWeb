@@ -1,0 +1,14 @@
+﻿@model GuildInfoModel
+@if (Model != null && Model.DiscordGuild != null)
+{
+    <div class="small">
+        <span class="text-muted">GuildInfo:</span>
+        <ul class="list-unstyled">
+            <li class="d-inline mx-1 text-muted "><i class="bi bi-star-fill"></i> Name: @Model.DiscordGuild.name</li>
+            <li class="d-inline mx-1 text-muted "><i class="bi bi-stars"></i> ID: @Model.DiscordGuild.id</li>
+            <li class="d-inline mx-1 text-muted "><i class="bi bi-people-fill"></i> MemberCount: @(Model?.Members?.Count() ?? 0) </li>
+            <li class="d-inline mx-1 text-muted "><i class="bi bi-hash"></i> ChannelCount: @(Model?.Channels?.Count() ?? 0)</li>
+            <li class="d-inline mx-1 text-muted "><i class="bi bi-shield-lock-fill"></i> RoleCount: @(Model?.Roles?.Count() ?? 0)</li>
+        </ul>
+    </div>
+}

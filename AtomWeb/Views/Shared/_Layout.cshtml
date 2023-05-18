@@ -1,0 +1,82 @@
+﻿@using AtomWeb.Services
+@{
+    string theme = CookieService.GetTheme(@HttpContextAccessor?.HttpContext) ?? "dark";
+}
+<!DOCTYPE html>
+<html lang="en" class="mainBackground">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AtomWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="@(theme == "light" ? "~/css/themes/white.min.css":"~/css/themes/default.min.css")" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AtomWeb.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/cfcd8010c7.js" crossorigin="anonymous"></script>
+
+</head>
+<body class="mainBackground">
+    <div id="particles-js"></div>
+    <div>
+        <div class="container" style="position:relative; margin-top:6em;">
+            <main role="main" class="pb-3 main">
+                <div class="pageContent">
+                    <partial name="_BreadCrumbPartial" />
+                    @RenderBody()
+                </div>
+            </main>
+            <partial name="_loadingPartial" />
+        </div>
+
+        <footer class="border-top1 footer text-muted text-center d-flex">
+            <div class="container">
+                <div class="text-muted" style="float:left;">
+                    &copy; @DateTime.Now.Year • AtomWeb • <a class="text-muted" href="@PrivateConfig.DiscordInviteUrl" target="_blank" title="Join Support Server"><i class="bi bi-discord spinn"></i></a> • <a class="text-muted" href="https://discord.com/api/oauth2/authorize?client_id=@(PrivateConfig.BotId)&permissions=8&scope=applications.commands%20bot" target="_blank" title="Discord Bot Invite"><i class="fa-solid fa-robot spinn"></i></a>
+                </div>
+                <div class="text-muted" style="float:right; padding-bottom:0.5em;"> Made with <i class="love">♥</i> by .BLG</div>
+            </div>      
+        </footer>
+
+        <div id="pageNav">
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom1 box-shadow">
+                    <div class="container">
+                        <img src="@DesignConfig.BotLogo" alt="logo" class="botlogo" id="botLogo">
+                        <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">AtomWeb</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <partial name="_navPartial" />
+                        </div>
+                    </div>
+                </nav>
+                <div class="progress" style="width:0px;"></div>
+            </header>
+        </div>
+
+        <partial name="_AlertPartial" />
+        <partial name="_ScrollToTopPartial" />
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.es5.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/loader.es5.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/scrollIndicator.es5.min.js" asp-append-version="true" defer></script>
+    <script src="@(theme == "light" ? "~/js/particlesLight.js":"~/js/particlesDark.js")" asp-append-version="true" defer></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
